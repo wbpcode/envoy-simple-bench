@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  server:
+    image: envoyproxy/nighthawk-dev:latest
+    networks:
+    - envoy-perf-test
+    volumes:
+    - ./server.yaml:/etc/server.yaml
+    entrypoint: "/usr/local/bin/nighthawk_test_server --concurrency 1 -c /etc/server.yaml"
+    ports:
+    - 10000:10000
+  proxy:
+    image: envoyproxy/envoy-dev:latest
+    volumes:
+    - ./proxy.yaml:/etc/proxy.yaml
+    networks:
+    - envoy-perf-test
+    entrypoint: "/usr/local/bin/envoy --concurrency 1 -c /etc/proxy.yaml"
+    ports:
+    - 9090:9090
+  client:
+    build:
+      context: .
+      dockerfile: Dokerfile-Client
+    networks:
+    - envoy-perf-test
+    volumes:
+    - ./benchmark.py:/etc/benchmark.py
+    entrypoint: "python3 /etc/benchmark.py"
+networks:
+  envoy-perf-test: {}

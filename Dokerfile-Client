@@ -1,0 +1,3 @@
+FROM envoyproxy/nighthawk-dev:latest
+
+RUN apk add --no-cache python3>=3.8.7-r0
