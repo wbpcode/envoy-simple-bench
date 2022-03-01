@@ -6,7 +6,7 @@ services:
     - envoy-perf-test
     volumes:
     - ./server.yaml:/etc/server.yaml
-    entrypoint: "/usr/local/bin/nighthawk_test_server --concurrency 1 -c /etc/server.yaml"
+    entrypoint: "/usr/local/bin/nighthawk_test_server --concurrency 2 -c /etc/server.yaml"
     ports:
     - 10000:10000
   proxy:
